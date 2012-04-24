@@ -1,0 +1,145 @@
+From 7216f55cda9d440542da8be56a011bf8435d747f Mon Sep 17 00:00:00 2001
+From: Sebastian Vollnhals <sebastian@vollnhals.info>
+Date: Mon, 23 Apr 2012 02:30:13 +0200
+Subject: [PATCH] add dimensions support
+
+---
+diff --git a/admin/categories.php b/admin/categories.php
+index 9e44665..04d1ba1 100755
+--- a/admin/categories.php
++++ b/admin/categories.php
+@@ -217,6 +217,9 @@
+                                 'products_price' => tep_db_prepare_input($HTTP_POST_VARS['products_price']),
+                                 'products_date_available' => $products_date_available,
+                                 'products_weight' => (float)tep_db_prepare_input($HTTP_POST_VARS['products_weight']),
++									 	 'products_height' => tep_db_prepare_input($HTTP_POST_VARS['products_height']),
++										 'products_length' => tep_db_prepare_input($HTTP_POST_VARS['products_length']),
++										 'products_width' => tep_db_prepare_input($HTTP_POST_VARS['products_width']),
+                                 'products_status' => tep_db_prepare_input($HTTP_POST_VARS['products_status']),
+                                 'products_tax_class_id' => tep_db_prepare_input($HTTP_POST_VARS['products_tax_class_id']),
+                                 'manufacturers_id' => (int)tep_db_prepare_input($HTTP_POST_VARS['manufacturers_id']));
+@@ -343,10 +346,11 @@
+               $messageStack->add_session(ERROR_CANNOT_LINK_TO_SAME_CATEGORY, 'error');
+             }
+           } elseif ($HTTP_POST_VARS['copy_as'] == 'duplicate') {
+-            $product_query = tep_db_query("select products_quantity, products_model, products_image, products_price, products_date_available, products_weight, products_tax_class_id, manufacturers_id from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
+-            $product = tep_db_fetch_array($product_query);
++				} elseif ($HTTP_POST_VARS['copy_as'] == 'duplicate') {
++	            $product_query = tep_db_query("select products_quantity, products_model, products_image, products_price, products_date_available, products_weight, products_length, products_width, products_height, products_tax_class_id, manufacturers_id from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
++	            $product = tep_db_fetch_array($product_query);
+ 
+-            tep_db_query("insert into " . TABLE_PRODUCTS . " (products_quantity, products_model,products_image, products_price, products_date_added, products_date_available, products_weight, products_status, products_tax_class_id, manufacturers_id) values ('" . tep_db_input($product['products_quantity']) . "', '" . tep_db_input($product['products_model']) . "', '" . tep_db_input($product['products_image']) . "', '" . tep_db_input($product['products_price']) . "',  now(), " . (empty($product['products_date_available']) ? "null" : "'" . tep_db_input($product['products_date_available']) . "'") . ", '" . tep_db_input($product['products_weight']) . "', '0', '" . (int)$product['products_tax_class_id'] . "', '" . (int)$product['manufacturers_id'] . "')");
++	            tep_db_query("insert into " . TABLE_PRODUCTS . " (products_quantity, products_model,products_image, products_price, products_date_added, products_date_available, products_weight, products_length, products_width, products_height, products_status, products_tax_class_id, manufacturers_id) values ('" . tep_db_input($product['products_quantity']) . "', '" . tep_db_input($product['products_model']) . "', '" . tep_db_input($product['products_image']) . "', '" . tep_db_input($product['products_price']) . "',  now(), " . (empty($product['products_date_available']) ? "null" : "'" . tep_db_input($product['products_date_available']) . "'") . ", '" . tep_db_input($product['products_weight']) . "', '" . tep_db_input($product['products_length']) . "', '" . tep_db_input($product['products_width']) . "','" . tep_db_input($product['products_height']) . "', '0', '" . (int)$product['products_tax_class_id'] . "', '" . (int)$product['manufacturers_id'] . "')");
+             $dup_products_id = tep_db_insert_id();
+ 
+             $description_query = tep_db_query("select language_id, products_name, products_description, products_url from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$products_id . "'");
+@@ -394,6 +398,9 @@
+                        'products_larger_images' => array(),
+                        'products_price' => '',
+                        'products_weight' => '',
++                       'products_length' => '',
++                       'products_width' => '',
++                       'products_height' => '',
+                        'products_date_added' => '',
+                        'products_last_modified' => '',
+                        'products_date_available' => '',
+@@ -404,7 +411,7 @@
+     $pInfo = new objectInfo($parameters);
+ 
+     if (isset($HTTP_GET_VARS['pID']) && empty($HTTP_POST_VARS)) {
+-      $product_query = tep_db_query("select pd.products_name, pd.products_description, pd.products_url, p.products_id, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, date_format(p.products_date_available, '%Y-%m-%d') as products_date_available, p.products_status, p.products_tax_class_id, p.manufacturers_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
++      $product_query = tep_db_query("select pd.products_name, pd.products_description, pd.products_url, p.products_id, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, products_length, products_width, products_height, p.products_date_added, p.products_last_modified, date_format(p.products_date_available, '%Y-%m-%d') as products_date_available, p.products_status, p.products_tax_class_id, p.manufacturers_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+       $product = tep_db_fetch_array($product_query);
+ 
+       $pInfo->objectInfo($product);
+@@ -677,6 +684,18 @@ function showPiDelConfirm(piId) {
+             <td class="main"><?php echo TEXT_PRODUCTS_WEIGHT; ?></td>
+             <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_input_field('products_weight', $pInfo->products_weight); ?></td>
+           </tr>
++          <tr>
++            <td class="main"><?php echo TEXT_PRODUCTS_LENGTH; ?></td>
++            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_input_field('products_length', $pInfo->products_length); ?></td>
++          </tr>
++          <tr>
++            <td class="main"><?php echo TEXT_PRODUCTS_WIDTH; ?></td>
++            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_input_field('products_width', $pInfo->products_width); ?></td>
++          </tr>
++          <tr>
++            <td class="main"><?php echo TEXT_PRODUCTS_HEIGHT; ?></td>
++            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_input_field('products_height', $pInfo->products_height); ?></td>
++          </tr>
+         </table></td>
+       </tr>
+       <tr>
+@@ -696,7 +715,7 @@ $('#products_date_available').datepicker({
+     </form>
+ <?php
+   } elseif ($action == 'new_product_preview') {
+-    $product_query = tep_db_query("select p.products_id, pd.language_id, pd.products_name, pd.products_description, pd.products_url, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.manufacturers_id  from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "'");
++   	$product_query = tep_db_query("select p.products_id, pd.language_id, pd.products_name, pd.products_description, pd.products_url, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_length, p.products_width, p.products_height, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.manufacturers_id  from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "'");
+     $product = tep_db_fetch_array($product_query);
+ 
+     $pInfo = new objectInfo($product);
+diff --git a/admin/includes/classes/shopping_cart.php b/admin/includes/classes/shopping_cart.php
+index e6c214b..7c5b4ae 100755
+--- a/admin/includes/classes/shopping_cart.php
++++ b/admin/includes/classes/shopping_cart.php
+@@ -257,7 +257,7 @@
+       $products_array = array();
+       reset($this->contents);
+       while (list($products_id, ) = each($this->contents)) {
+-        $products_query = tep_db_query("select p.products_id, pd.products_name, p.products_model, p.products_price, p.products_weight, p.products_tax_class_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id='" . (int)tep_get_prid($products_id) . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
++			$products_query = tep_db_query("select p.products_id, pd.products_name, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_length, p.products_width, p.products_height, p.products_tax_class_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$products_id . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
+         if ($products = tep_db_fetch_array($products_query)) {
+           $prid = $products['products_id'];
+           $products_price = $products['products_price'];
+@@ -274,6 +274,9 @@
+                                     'price' => $products_price,
+                                     'quantity' => $this->contents[$products_id]['qty'],
+                                     'weight' => $products['products_weight'],
++												'length' => $products['products_length'],
++												'width' => $products['products_width'],
++												'height' => $products['products_height'],
+                                     'final_price' => ($products_price + $this->attributes_price($products_id)),
+                                     'tax_class_id' => $products['products_tax_class_id'],
+                                     'attributes' => (isset($this->contents[$products_id]['attributes']) ? $this->contents[$products_id]['attributes'] : ''));
+diff --git a/admin/includes/languages/english.php b/admin/includes/languages/english.php
+index dfffe16..de8fa01 100755
+--- a/admin/includes/languages/english.php
++++ b/admin/includes/languages/english.php
+@@ -295,4 +295,9 @@ define('ERROR_FILE_NOT_SAVED', 'Error: File upload not saved.');
+ define('ERROR_FILETYPE_NOT_ALLOWED', 'Error: File upload type not allowed.');
+ define('SUCCESS_FILE_SAVED_SUCCESSFULLY', 'Success: File upload saved successfully.');
+ define('WARNING_NO_FILE_UPLOADED', 'Warning: No file uploaded.');
++
++define('TEXT_PRODUCTS_HEIGHT', 'Height:');
++define('TEXT_PRODUCTS_LENGTH', 'Length:');
++define('TEXT_PRODUCTS_WIDTH', 'Width:');
++
+ ?>
+diff --git a/includes/classes/shopping_cart.php b/includes/classes/shopping_cart.php
+index 759a54a..074411c 100755
+--- a/includes/classes/shopping_cart.php
++++ b/includes/classes/shopping_cart.php
+@@ -327,7 +327,7 @@
+       $products_array = array();
+       reset($this->contents);
+       while (list($products_id, ) = each($this->contents)) {
+-        $products_query = tep_db_query("select p.products_id, pd.products_name, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_tax_class_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$products_id . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
++        $products_query = tep_db_query("select p.products_id, pd.products_name, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_tax_class_id, p.products_length, p.products_width, p.products_height from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$products_id . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
+         if ($products = tep_db_fetch_array($products_query)) {
+           $prid = $products['products_id'];
+           $products_price = $products['products_price'];
+@@ -345,6 +345,9 @@
+                                     'price' => $products_price,
+                                     'quantity' => $this->contents[$products_id]['qty'],
+                                     'weight' => $products['products_weight'],
++									          'length' => $products['products_length'],
++									          'width' => $products['products_width'],
++									          'height' => $products['products_height'],
+                                     'final_price' => ($products_price + $this->attributes_price($products_id)),
+                                     'tax_class_id' => $products['products_tax_class_id'],
+                                     'attributes' => (isset($this->contents[$products_id]['attributes']) ? $this->contents[$products_id]['attributes'] : ''));
+-- 
+1.7.8.3
+
