@@ -110,7 +110,18 @@ class tiramizoo {
 
 		if (!$result) {
 			
-			return false;
+			/* assume that the delivery windows are 90 minutes after the pickup windows */
+			
+			$data["delivery"]["windows"] = $this->_find_time(5400);
+			unset($data["delivery"]["intervals"]);
+						
+			$result = $this->api->request('quotes', $data, $quotes);
+
+			if (!$result) {
+				
+				return false;
+				
+			}
 			
 		}
 		
