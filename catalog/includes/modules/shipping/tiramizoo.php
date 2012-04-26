@@ -465,7 +465,7 @@ if (!class_exists("tiramizoo_api")) {
 			switch ($status) {
 				case 200:
 					$result = json_decode($result,true);
-					return ($result === NULL);
+					return true;
 				break;
 				default:
 					return false;
