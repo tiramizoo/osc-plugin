@@ -179,14 +179,14 @@ class tiramizoo {
 				"name" => $order->delivery["firstname"]." ".$order->delivery["lastname"],
 				"phone_number" => $order->customer["telephone"],
 				"company" => $order->delivery["company"],
-				"email" => $order->customer["email"]
+				"email" => $order->customer["email_address"]
 			),
 			"description" => $description
 		);
 						
 		$result = $this->api->request('orders', $data, $orders);
 						
-		if ($result === null) {
+		if ($result === false) {
 			
 			/* submitting the order failed. there is nothing we can do about it, but inform the shop owner. */
 			
