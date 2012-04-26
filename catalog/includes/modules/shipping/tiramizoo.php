@@ -448,7 +448,7 @@ if (!class_exists("tiramizoo_api")) {
 
 			curl_setopt($c, CURLOPT_URL, $this->api_url.'/'.$method.'?api_key='.MODULE_SHIPPING_TIRAMIZOO_APIKEY);
 			curl_setopt($c, CURLOPT_POST, true);
-			curl_setopt($c, CURLOPT_POSTFIELDS, json_encode($data));
+			curl_setopt($c, CURLOPT_POSTFIELDS, preg_replace_callback('/(\\\u[0-9a-f]{4})/', array($this, "json_unescape"), json_encode($data)));
 
 			curl_setopt($c, CURLOPT_HTTPHEADER, array(
 				"Content-Type: application/json",
@@ -474,6 +474,12 @@ if (!class_exists("tiramizoo_api")) {
 	
 		}	
 	
+   	private function json_unescape($m) {
+	
+	      return json_decode('"'.$m[1].'"');
+	
+      }
+      
 	}
 	
 }
