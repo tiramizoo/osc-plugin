@@ -140,6 +140,39 @@ index 759a54a..074411c 100755
                                      'final_price' => ($products_price + $this->attributes_price($products_id)),
                                      'tax_class_id' => $products['products_tax_class_id'],
                                      'attributes' => (isset($this->contents[$products_id]['attributes']) ? $this->contents[$products_id]['attributes'] : ''));
+diff --git a/includes/classes/order.php b/includes/classes/order.php
+index 423b5c3..b83ec17 100755
+--- a/includes/classes/order.php
++++ b/includes/classes/order.php
+@@ -288,6 +288,9 @@
+                                         'tax_description' => tep_get_tax_description($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
+                                         'price' => $products[$i]['price'],
+                                         'final_price' => $products[$i]['price'] + $cart->attributes_price($products[$i]['id']),
++                                        'width' => $products[$i]['width'],
++                                        'length' => $products[$i]['length'],
++                                        'height' => $products[$i]['height'],
+                                         'weight' => $products[$i]['weight'],
+                                         'id' => $products[$i]['id']);
+diff --git a/admin/includes/functions/database.php b/admin/includes/functions/database.php
+index f6fa1b3..83a5991 100755
+--- a/admin/includes/functions/database.php
++++ b/admin/includes/functions/database.php
+@@ -19,8 +19,14 @@
+      $$link = mysql_connect($server, $username, $password);
+    }
+
+-    if ($$link) mysql_select_db($database);
++	if ($$link) {
+
++		mysql_query("SET CHARACTER SET utf8");
++		mysql_query("SET NAMES utf8");
++		mysql_select_db($database);
++
++	}
++	
+    return $$link;
+  }
+
 diff --git a/includes/functions/database.php b/includes/functions/database.php
 index c25882b..6b73edf 100755
 --- a/includes/functions/database.php
