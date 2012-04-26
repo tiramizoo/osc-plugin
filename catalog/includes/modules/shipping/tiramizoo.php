@@ -422,11 +422,11 @@ class tiramizoo {
 		
 		if (date("Y.m.d", $after) == date("Y.m.d", $before)) {
 			
-			return "at <strong>".date("d.m.Y", $after)."</strong> between <strong>".date("H:i", $after)."</strong> and <strong>".date("H:i", $before)."</strong>";
+			return sprintf(MODULE_SHIPPING_TIRAMIZOO_TEXT_TIMES_SAMEDAY, date("d.m.Y", $after), date("H:i", $after), date("H:i", $before));
 			
 		} else {
 			
-			return "between <strong>".date("d.m.Y, H:i", $after)."</strong> and <strong>".date("d.m.Y, H:i", $before)."</strong>";
+			return sprintf(MODULE_SHIPPING_TIRAMIZOO_TEXT_TIMES_DIFFDAY, date("d.m.Y, H:i", $after), date("d.m.Y, H:i", $before));
 			
 		}
 		
