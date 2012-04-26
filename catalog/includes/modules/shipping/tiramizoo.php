@@ -422,11 +422,11 @@ class tiramizoo {
 		
 		if (date("Y.m.d", $after) == date("Y.m.d", $before)) {
 			
-			return "am <strong>".date("d.m.Y", $after)."</strong> zwischen <strong>".date("H:i", $after)."</strong> und <strong>".date("H:i", $before)."</strong>";
+			return "at <strong>".date("d.m.Y", $after)."</strong> between <strong>".date("H:i", $after)."</strong> and <strong>".date("H:i", $before)."</strong>";
 			
 		} else {
 			
-			return "zwischen <strong>".date("d.m.Y, H:i", $after)."</strong> und <strong>".date("d.m.Y, H:i", $before)."</strong>";
+			return "between <strong>".date("d.m.Y, H:i", $after)."</strong> and <strong>".date("d.m.Y, H:i", $before)."</strong>";
 			
 		}
 		
