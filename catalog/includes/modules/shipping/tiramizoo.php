@@ -69,7 +69,7 @@ class tiramizoo {
 		$data = array(
 			"pickup" => array(
 				"address" => MODULE_SHIPPING_TIRAMIZOO_PICKUP_STREET." ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_NUMBER.", ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_POSTCODE." ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_COUNTRY,
-				"delay" => MODULE_SHIPPING_TIRAMIZOO_PICKUP_DELAY,
+				"delay" => (MODULE_SHIPPING_TIRAMIZOO_PICKUP_DELAY+0),
 				"windows" => $windows
 			),
 			"delivery" => array(
@@ -99,7 +99,7 @@ class tiramizoo {
 					"height" => ($item["height"] * $size_factor),
 					"length" => ($item["length"] * $size_factor),
 					"weight" => ($item["weight"] * $weight_factor),
-					"quantity" => $item["qty"]
+					"quantity" => ($item["qty"]+0)
 				);
 
 			}
