@@ -140,6 +140,26 @@ index 759a54a..074411c 100755
                                      'final_price' => ($products_price + $this->attributes_price($products_id)),
                                      'tax_class_id' => $products['products_tax_class_id'],
                                      'attributes' => (isset($this->contents[$products_id]['attributes']) ? $this->contents[$products_id]['attributes'] : ''));
+diff --git a/includes/functions/database.php b/includes/functions/database.php
+index c25882b..6b73edf 100755
+--- a/includes/functions/database.php
++++ b/includes/functions/database.php
+@@ -19,7 +19,14 @@
+      $$link = mysql_connect($server, $username, $password);
+    }
+
+-    if ($$link) mysql_select_db($database);
++
++	if ($$link) {
++	
++		mysql_query("SET CHARACTER SET utf8");
++		mysql_query("SET NAMES utf8");
++		mysql_select_db($database);
++	
++	}
+
+    return $$link;
+  }
 -- 
 1.7.8.3
 
