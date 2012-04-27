@@ -12,7 +12,7 @@ $(document).ready(function(){
 		
 			/* shipping list; hide all the stuff */
 		
-			$('#tiramizoo-title').parent().parent().parent().after('<tr id="tiramizoo-row"><td id="tiramizoo-action"><div id="tiramizoo-container"><div id="tiramizoo-action-label"></div> Delivery by tiramizoo at <div id="tiramizoo-action-select-date"></div> from <div id="tiramizoo-action-select-time"></div></div></td><td id="tiramizoo-price"></td><td align="right"><input type="radio" value="on" id="tiramizoo-enabled-on" name="tiramizoo-enabled" /><input type="radio" value="off" id="tiramizoo-enabled-off" name="tiramizoo-enabled" style="display: none;" /></td></tr>');
+			$('#tiramizoo-title').parent().parent().parent().after('<tr id="tiramizoo-row"><td id="tiramizoo-action"><div id="tiramizoo-container"><div id="tiramizoo-action-label"></div> Delivery at <div id="tiramizoo-action-select-date"></div> <div id="tiramizoo-action-select-time"></div></div></td><td id="tiramizoo-price"></td><td align="right"><input type="radio" value="on" id="tiramizoo-enabled-on" name="tiramizoo-enabled" /><input type="radio" value="off" id="tiramizoo-enabled-off" name="tiramizoo-enabled" style="display: none;" /></td></tr>');
 			$('.tiramizoo-element').parent().parent().hide();
 		
 			$('.tiramizoo-element').each(function(idx,e){
@@ -35,27 +35,19 @@ $(document).ready(function(){
 		
 			$('#tiramizoo-action-select-date').html('<select size="1" name="tiramizoo-select-date" id="tiramizoo-select-date"></select>');
 
+			$('#tiramizoo-action-select-time').html('<select size="1" name="tiramizoo-select-time" id="tiramizoo-select-time"></select>');
+
 			$($h).each(function(idx,e){
 					
 				$e = $d[e];
 									
 				$('#tiramizoo-select-date').append('<option value="'+($d[e][0].datehash)+'">'+($d[e][0].date)+'</option>');
-
-				$('#tiramizoo-action-select-time').html('<select size="1" name="tiramizoo-select-time" id="tiramizoo-select-time"></select>');
 			
 				$($d[e]).each(function(idx,$t) {
 									
 					$('#tiramizoo-select-time').append('<option value="'+($t.idhash)+'" class="tiramizoo-time tiramizoo-time-'+($t.datehash)+'">'+($t.after)+' - '+($t.before)+'</option>');					
 				
 				});				
-			
-			});
-			
-			$('#tiramizoo-select-date').change(function(){
-				$val = $('#tiramizoo-select-date').val();
-				$('option.tiramizoo-time').hide();
-				$('option.tiramizoo-time-'+$val).show();
-				$('#tiramizoo-select-time').val($('#tiramizoo-select-time option:visible').eq(0).attr('value'));
 			
 			});
 
@@ -74,6 +66,18 @@ $(document).ready(function(){
 			$('#tiramizoo-select-time').change(function(){ changer() });
 		
 			changer();
+			
+			var selecter = function(){				
+				$val = $('#tiramizoo-select-date').val();
+				$('option.tiramizoo-time').hide();
+				$('option.tiramizoo-time-'+$val).show();
+				$('#tiramizoo-select-time').val($('#tiramizoo-select-time option:visible').eq(0).attr('value'));
+				changer();
+			}
+			
+			selecter();			
+			
+			$('#tiramizoo-select-date').change(function(){ selecter(); });
 		
 			$val = $('#tiramizoo-select-date').val();
 			$('option.tiramizoo-time').hide();
@@ -129,7 +133,7 @@ $(document).ready(function(){
 			
 			/* content */
 			
-			$('#tiramizoo-action-label').html('Some Aweseom tax has to be written for this area. Since our Typewriters are all broken right now, this blind text has to suffice.');
+			$('#tiramizoo-action-label').html('Fast and reliable delivery to your doorstep by professional couriers! Get it delivered - now!');
 		
 			/* style */
 
