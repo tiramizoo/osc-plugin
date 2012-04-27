@@ -12,7 +12,7 @@ $(document).ready(function(){
 		
 			/* shipping list; hide all the stuff */
 		
-			$('#tiramizoo-title').parent().parent().parent().after('<tr id="tiramizoo-row"><td colspan="2" id="tiramizoo-action"><div id="tiramizoo-container"><div id="tiramizoo-action-label"></div> Delivery by tiramizoo at <div id="tiramizoo-action-select-date"></div> from <div id="tiramizoo-action-select-time"></div></div></td><td><input type="radio" value="on" id="tiramizoo-enabled-on" name="tiramizoo-enabled" /><input type="radio" value="off" id="tiramizoo-enabled-off" name="tiramizoo-enabled" style="display: none;" /></td></tr>');
+			$('#tiramizoo-title').parent().parent().parent().after('<tr id="tiramizoo-row"><td id="tiramizoo-action"><div id="tiramizoo-container"><div id="tiramizoo-action-label"></div> Delivery by tiramizoo at <div id="tiramizoo-action-select-date"></div> from <div id="tiramizoo-action-select-time"></div></div></td><td id="tiramizoo-price"></td><td align="right"><input type="radio" value="on" id="tiramizoo-enabled-on" name="tiramizoo-enabled" /><input type="radio" value="off" id="tiramizoo-enabled-off" name="tiramizoo-enabled" style="display: none;" /></td></tr>');
 			$('.tiramizoo-element').parent().parent().hide();
 		
 			$('.tiramizoo-element').each(function(idx,e){
@@ -59,14 +59,21 @@ $(document).ready(function(){
 			
 			});
 
-			$('#tiramizoo-select-time').change(function(){
-				$tval = $('#tiramizoo-select-time').val();
-				$('input[name=shipping]').each(function(idx,e){
-					if ($(e).val() == $i[$tval]["id"]) {
-						$(e).click();
-					}
-				});
-			});
+			var changer = function(){
+				setTimeout(function(){				
+					$tval = $('#tiramizoo-select-time').val();
+					$('#tiramizoo-price').html($i[$tval]["price"])
+					$('input[name=shipping]').each(function(idx,e){
+						if ($(e).val() == $i[$tval]["id"]) {
+							$(e).click();
+						}
+					});
+				},100);
+			}
+
+			$('#tiramizoo-select-time').change(function(){ changer() });
+		
+			changer();
 		
 			$val = $('#tiramizoo-select-date').val();
 			$('option.tiramizoo-time').hide();
@@ -118,24 +125,38 @@ $(document).ready(function(){
 				
 			});	
 			
-			trigger();		
+			trigger();	
+			
+			/* content */
+			
+			$('#tiramizoo-action-label').html('Some Aweseom tax has to be written for this area. Since our Typewriters are all broken right now, this blind text has to suffice.');
 		
 			/* style */
 
 			$('#tiramizoo-row').css({
-				backgroundColor: '#85BF05'
+				backgroundColor: '#85BF05',
+				border: '1px solid #85BF05'
+			});
+
+			$('#tiramizoo-row td').css({
+				backgroundColor: '#eee'
 			});
 
 			$('#tiramizoo-container').css({
 				display: 'block',
-				padding: '40px 10px 10px',
-				background: '#85BF05 url(images/shipping-tiramizoo.png) 10px 10px no-repeat'
+				padding: '50px 10px 20px',
+				background: '#fff url(images/shipping-tiramizoo.png) 10px 20px no-repeat'
 			});
-
+			
 			$('#tiramizoo-container div').css({
-				display: 'inline-block'
+				display: 'inline'
 			});
 
+			$('#tiramizoo-action-label').css({
+				display: 'block',
+				marginBottom: '20px'
+			});
+			
 			$('#tiramizoo-container select').css({
 				display: 'inline-block'
 			});
