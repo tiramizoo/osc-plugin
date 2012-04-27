@@ -35,25 +35,26 @@ $(document).ready(function(){
 		
 			$('#tiramizoo-action-select-date').html('<select size="1" name="tiramizoo-select-date" id="tiramizoo-select-date"></select>');
 
-			$('#tiramizoo-action-select-time').html('<select size="1" name="tiramizoo-select-time" id="tiramizoo-select-time"></select>');
-
 			$($h).each(function(idx,e){
 					
 				$e = $d[e];
+					
+				$('#tiramizoo-action-select-time').append('<select size="1" name="tiramizoo-select-time" class="tiramizoo-select-time" id="tiramizoo-select-time-'+($d[e][0].datehash)+'"></select>');
 									
 				$('#tiramizoo-select-date').append('<option value="'+($d[e][0].datehash)+'">'+($d[e][0].date)+'</option>');
 			
 				$($d[e]).each(function(idx,$t) {
 									
-					$('#tiramizoo-select-time').append('<option value="'+($t.idhash)+'" class="tiramizoo-time tiramizoo-time-'+($t.datehash)+'">'+($t.after)+' - '+($t.before)+'</option>');					
+					$('#tiramizoo-select-time-'+($t.datehash)).append('<option value="'+($t.idhash)+'" class="tiramizoo-time tiramizoo-time-'+($t.datehash)+'">'+($t.after)+' - '+($t.before)+'</option>');					
 				
 				});				
 			
 			});
 
 			var changer = function(){
-				setTimeout(function(){				
-					$tval = $('#tiramizoo-select-time').val();
+				setTimeout(function(){
+					$val = $('#tiramizoo-select-date').val();
+					$tval = $('#tiramizoo-select-time-'+$val).val();
 					$('#tiramizoo-price').html($i[$tval]["price"])
 					$('input[name=shipping]').each(function(idx,e){
 						if ($(e).val() == $i[$tval]["id"]) {
@@ -63,26 +64,22 @@ $(document).ready(function(){
 				},100);
 			}
 
-			$('#tiramizoo-select-time').change(function(){ changer() });
+			$('select.tiramizoo-select-time').change(function(){ changer(); });
 		
 			changer();
 			
 			var selecter = function(){				
 				$val = $('#tiramizoo-select-date').val();
-				$('option.tiramizoo-time').hide();
-				$('option.tiramizoo-time-'+$val).show();
-				$('#tiramizoo-select-time').val($('#tiramizoo-select-time option:visible').eq(0).attr('value'));
+				$('select.tiramizoo-select-time').hide();
+				$('select#tiramizoo-select-time-'+$val).show();
+				$('select#tiramizoo-select-time-'+$val).val($('#tiramizoo-select-time-'+$val+' option:visible').eq(0).attr('value'));
 				changer();
 			}
 			
 			selecter();			
 			
 			$('#tiramizoo-select-date').change(function(){ selecter(); });
-		
-			$val = $('#tiramizoo-select-date').val();
-			$('option.tiramizoo-time').hide();
-			$('option.tiramizoo-time-'+$val).show();
-		
+				
 			/* check if enabled */
 							
 			var trigger = function() {
@@ -161,10 +158,6 @@ $(document).ready(function(){
 				marginBottom: '20px'
 			});
 			
-			$('#tiramizoo-container select').css({
-				display: 'inline-block'
-			});
-
 						
 		}
 	
