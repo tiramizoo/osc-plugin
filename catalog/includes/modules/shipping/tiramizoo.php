@@ -31,7 +31,7 @@ class tiramizoo {
 		}
 
 		$this->code = 'tiramizoo';
-		$this->title = MODULE_SHIPPING_TIRAMIZOO_TEXT_TITLE;
+		$this->title = '<span id="tiramizoo-title">'.MODULE_SHIPPING_TIRAMIZOO_TEXT_TITLE.'</span>';
 		$this->description = MODULE_SHIPPING_TIRAMIZOO_TEXT_DESCRIPTION;
 		$this->icon = '';
 		$this->enabled = ((MODULE_SHIPPING_TIRAMIZOO_STATUS == 'True') ? true : false);
@@ -133,7 +133,7 @@ class tiramizoo {
 			
 			$this->quotes["methods"][] = array(
 				"id" => $this->code."-".$id,
-				"title" => MODULE_SHIPPING_TIRAMIZOO_TEXT_QUOTE_TITLE." ".$this->_print_delivery($quote["delivery"]["after"], $quote["delivery"]["before"]),
+				"title" => '<span class="tiramizoo-element" data-tiramizoo=\'{"id":"'.$this->code.'_'.$this->code.'-'.$id.'","idhash":"'.md5($this->code.'-'.$id).'","price":"'.(($quote["price"]["gross"]/100) * $currencies->currencies[$quote["price"]["currency"]]["value"]).'","date":"'.date("d.m.Y",strtotime($quote["delivery"]["after"])).'","datehash":"'.md5(date("d.m.Y",strtotime($quote["delivery"]["after"]))).'","timehash":"'.md5(date("H:i",strtotime($quote["delivery"]["after"]))).'","after":"'.date("H:i",strtotime($quote["delivery"]["after"])).'","before":"'.date("H:i",strtotime($quote["delivery"]["before"])).'"}\'>'.MODULE_SHIPPING_TIRAMIZOO_TEXT_QUOTE_TITLE." ".$this->_print_delivery($quote["delivery"]["after"], $quote["delivery"]["before"]).'</span>',
 				"cost" => (($quote["price"]["gross"]/100) * $currencies->currencies[$quote["price"]["currency"]]["value"])
 			);
 			
