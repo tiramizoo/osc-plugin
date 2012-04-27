@@ -354,12 +354,15 @@ class tiramizoo {
 		$d = date("w", $time);
 		
 		$times = array();
+		$timehashes = array();
 
 		if (count($time_table[$d]) > 0) {
 			
 			foreach ($time_table[$d] as $slide) {
 				
 				if (($slide["from"]*100) < date("Gi", $time) && ($slide["to"]*100) > date("Gi", $time)) {
+
+					$timehashes[] = md5(gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["from"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))).gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["to"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))));
 					
 					$times[] = array(
 						"after" => gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["from"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))),
@@ -386,10 +389,18 @@ class tiramizoo {
 					
 					if (($slide["from"]*100) > date("Gi", $time) || $d !== date("w", $time)) {
 
-						$times[] = array(
-							"after" => gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["from"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))),
-							"before" => gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["to"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time))))
-						);
+						$timehash = md5(gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["from"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))).gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["to"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))));
+
+						if (!in_array($timehash, $timehashes)) {
+							
+							$timehashes[] = $timehash;
+							
+							$times[] = array(
+								"after" => gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["from"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))),
+								"before" => gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["to"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time))))
+							);
+							
+						}
 						
 					}
 
