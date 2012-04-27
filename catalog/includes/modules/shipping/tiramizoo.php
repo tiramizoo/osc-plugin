@@ -348,7 +348,7 @@ class tiramizoo {
 			 usort($time_table[$d], array($this, "_find_time_sort"));
 			
 		}
-						
+								
 		/* check if the soonest time is in todays time slide */
 		
 		$d = date("w", $time);
@@ -378,16 +378,16 @@ class tiramizoo {
 		/* find next times */
 
 		$add = 0;
-
+		
 		for ($i = $d; $i < ($d+6); $i++) {
 
-			$d = $i%7;
-			
-			if (count($time_table[$d]) > 0) {
+			$dd = $i%7;
+						
+			if (count($time_table[$dd]) > 0) {
 
-				foreach ($time_table[$d] as $slide) {
+				foreach ($time_table[$dd] as $slide) {
 					
-					if (($slide["from"]*100) > date("Gi", $time) || $d !== date("w", $time)) {
+					if (($slide["from"]*100) > date("Gi", $time) || $dd !== date("w", $time)) {
 
 						$timehash = md5(gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["from"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))).gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["to"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))));
 
