@@ -78,7 +78,15 @@ class tiramizoo {
 			),
 			"items" => array()
 		);
+			
+		/* check min order amount */
 				
+		if (defined("MODULE_SHIPPING_TIRAMIZOO_MIN_AMOUNT") && MODULE_SHIPPING_TIRAMIZOO_MIN_AMOUNT > $order->info["total"]) {
+			
+			return false;
+			
+		}
+									
 		$weight_factor = (defined("MODULE_SHIPPING_TIRAMIZOO_WEIGHT_FACTOR") && preg_match("/^[0-9\.]$/", MODULE_SHIPPING_TIRAMIZOO_WEIGHT_FACTOR)) ? MODULE_SHIPPING_TIRAMIZOO_WEIGHT_FACTOR : 1;
 		$size_factor = (defined("MODULE_SHIPPING_TIRAMIZOO_SIZE_FACTOR") && preg_match("/^[0-9\.]$/", MODULE_SHIPPING_TIRAMIZOO_SIZE_FACTOR)) ? MODULE_SHIPPING_TIRAMIZOO_SIZE_FACTOR : 1;					
 						
@@ -269,6 +277,7 @@ class tiramizoo {
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Bearbeitungszeit für die Abholung', 'MODULE_SHIPPING_TIRAMIZOO_PICKUP_DELAY', '5', 'Anzahl der Minuten die der Kurier bei der Abholung auf die Aushändigung warten muss.', '6', '12', now())");      
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Gewichtsfaktor', 'MODULE_SHIPPING_TIRAMIZOO_WEIGHT_FACTOR', '1.0', 'Faktor zur Umrechnung des Produktgewichts in Kilogramm.', '6', '13', now())");      
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Gewichtsfaktor', 'MODULE_SHIPPING_TIRAMIZOO_SIZE_FACTOR', '1.0', 'Faktor zur Umrechnung der Produktmaße in Zentimeter.', '6', '13', now())");      
+		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Mindestbestellwert', 'MODULE_SHIPPING_TIRAMIZOO_MIN_AMOUNT', '50.0', 'Mindestbestellwert für tiramizoo-Lieferung.', '6', '13', now())");      
 
 		return true;
 
