@@ -94,6 +94,12 @@ class tiramizoo {
 			
 			foreach ($order->products as $item) {
 
+				if ($item["width"] == 0 && $item["height"] == 0 && $item["length"] == 0) {
+					
+					return false;
+					
+				}
+
 				$data["items"][] = array(
 					"width" => ($item["width"] * $size_factor),
 					"height" => ($item["height"] * $size_factor),
