@@ -12,7 +12,7 @@ $(document).ready(function(){
 		
 			/* shipping list; hide all the stuff */
 		
-			$('#tiramizoo-title').parent().parent().parent().after('<tr id="tiramizoo-row"><td id="tiramizoo-action"><div id="tiramizoo-container"><div id="tiramizoo-action-label"></div> Delivery at <div id="tiramizoo-action-select-date"></div> <div id="tiramizoo-action-select-time"></div></div></td><td id="tiramizoo-price"></td><td align="right"><input type="radio" value="on" id="tiramizoo-enabled-on" name="tiramizoo-enabled" /><input type="radio" value="off" id="tiramizoo-enabled-off" name="tiramizoo-enabled" style="display: none;" /></td></tr>');
+			$('#tiramizoo-title').parent().parent().parent().after('<tr id="tiramizoo-row"><td id="tiramizoo-action"><div id="tiramizoo-container"><div id="tiramizoo-action-label"></div> Delivery at <br /><div id="tiramizoo-action-select-date"></div> <div id="tiramizoo-action-select-time"></div></div></td><td id="tiramizoo-price"></td><td align="right"><input type="radio" value="on" id="tiramizoo-enabled-on" name="tiramizoo-enabled" /><input type="radio" value="off" id="tiramizoo-enabled-off" name="tiramizoo-enabled" style="display: none;" /></td></tr>');
 			$('.tiramizoo-element').parent().parent().hide();
 		
 			$('.tiramizoo-element').each(function(idx,e){
@@ -45,7 +45,7 @@ $(document).ready(function(){
 			
 				$($d[e]).each(function(idx,$t) {
 									
-					$('#tiramizoo-select-time-'+($t.datehash)).append('<option value="'+($t.idhash)+'" class="tiramizoo-time tiramizoo-time-'+($t.datehash)+'">'+($t.after)+' - '+($t.before)+'</option>');					
+					$('#tiramizoo-select-time-'+($t.datehash)).append('<option value="'+($t.idhash)+'" class="tiramizoo-time tiramizoo-time-'+($t.datehash)+'">'+($t.after)+' - '+($t.before)+' for '+($t.price)+'</option>');					
 				
 				});				
 			
