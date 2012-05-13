@@ -376,7 +376,7 @@ class tiramizoo {
 				
 				if (($slide["from"]*100) < date("Gi", $time) && ($slide["to"]*100) > date("Gi", $time)) {
 
-               $timehashes[] = md5(gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["from"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))).gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["to"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))));
+					$timehashes[] = md5(gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["from"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))).gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["to"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))));
 					$timehashes[] = md5(gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime(date("h", $time), date("i", $time), 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))).gmdate("Y-m-d\TH:i:s.000\Z", ($drift + mktime($slide["to"], 0, 0, date("n", $time), (date("j", $time)+$add), date("Y", $time)))));
 					
 					$times[] = array(
@@ -464,7 +464,7 @@ if (!class_exists("tiramizoo_api")) {
 
 	class tiramizoo_api {
 	
-		private $api_url = 'https://api-staging.tiramizoo.com/v1';
+		private $api_url = 'https://api.tiramizoo.com/v1';
 	
 		public function tiramizoo_api($api_userid, $api_key) {}
 		
