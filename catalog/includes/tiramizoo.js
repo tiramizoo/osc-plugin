@@ -104,7 +104,8 @@ $(document).ready(function(){
 			
 			$('#tiramizoo-enabled-on').change(function(){
 			
-				$tval = $('#tiramizoo-select-time').val();
+				$val = $('#tiramizoo-select-date').val();
+				$tval = $('#tiramizoo-select-time-'+$val).val();
 				$('input[name=shipping]').each(function(idx,e){
 					if ($(e).val() == $i[$tval]["id"]) {
 						$(e).click();
