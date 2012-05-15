@@ -68,12 +68,12 @@ class tiramizoo {
 		
 		$data = array(
 			"pickup" => array(
-				"address" => MODULE_SHIPPING_TIRAMIZOO_PICKUP_STREET." ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_NUMBER.", ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_POSTCODE." ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_COUNTRY,
+				"address" => $this->_fix_string(MODULE_SHIPPING_TIRAMIZOO_PICKUP_STREET." ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_NUMBER.", ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_POSTCODE." ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_CITY),
 				"delay" => (MODULE_SHIPPING_TIRAMIZOO_PICKUP_DELAY+0),
 				"windows" => $windows
 			),
 			"delivery" => array(
-				"address" => $order->delivery["street_address"].", ".$order->delivery["postcode"]." ".$order->delivery["city"],
+				"address" => $this->_fix_string($order->delivery["street_address"].", ".$order->delivery["postcode"]." ".$order->delivery["city"]),
 				"intervals" => true
 			),
 			"items" => array()
@@ -184,18 +184,18 @@ class tiramizoo {
 		$data = array(
 			"quote" => $_SESSION["tiramizoo_quotes"][$quote_id],
 			"pickup" => array(
-				"name" => MODULE_SHIPPING_TIRAMIZOO_PICKUP_NAME,
-				"phone_number" => MODULE_SHIPPING_TIRAMIZOO_PICKUP_PHONE,
-				"company" => MODULE_SHIPPING_TIRAMIZOO_PICKUP_COMPANY,
-				"email" => MODULE_SHIPPING_TIRAMIZOO_PICKUP_EMAIL
+				"name" => $this->_fix_string(MODULE_SHIPPING_TIRAMIZOO_PICKUP_NAME),
+				"phone_number" => $this->_fix_string(MODULE_SHIPPING_TIRAMIZOO_PICKUP_PHONE),
+				"company" => $this->_fix_string(MODULE_SHIPPING_TIRAMIZOO_PICKUP_COMPANY),
+				"email" => $this->_fix_string(MODULE_SHIPPING_TIRAMIZOO_PICKUP_EMAIL)
 			),
 			"delivery" => array(
-				"name" => $order->delivery["firstname"]." ".$order->delivery["lastname"],
-				"phone_number" => $order->customer["telephone"],
-				"company" => $order->delivery["company"],
-				"email" => $order->customer["email_address"]
+				"name" => $this->_fix_string($order->delivery["firstname"]." ".$order->delivery["lastname"]),
+				"phone_number" => $this->_fix_string($order->customer["telephone"]),
+				"company" => $this->_fix_string($order->delivery["company"]),
+				"email" => $this->_fix_string($order->customer["email_address"])
 			),
-			"description" => $description
+			"description" => $this->_fix_string($description)
 		);
 						
 		$result = $this->api->request('orders', $data, $orders);
@@ -456,6 +456,46 @@ class tiramizoo {
 			
 		}
 		
+	}
+	
+	function _fix_string($str) {
+		
+		/**
+			since we cannot rely on xtc to provide proper utf-8, we will try to create utf-8 of our own
+		*/
+		
+		if (!$this->_is_utf8($str)) {
+			return utf8_encode($str);
+		} 
+		
+		return $str;
+		
+	}
+	
+	function _is_utf8($str) {
+	    $c=0; $b=0;
+	    $bits=0;
+	    $len=strlen($str);
+	    for($i=0; $i<$len; $i++){
+	        $c=ord($str[$i]);
+	        if($c > 128){
+	            if(($c >= 254)) return false;
+	            elseif($c >= 252) $bits=6;
+	            elseif($c >= 248) $bits=5;
+	            elseif($c >= 240) $bits=4;
+	            elseif($c >= 224) $bits=3;
+	            elseif($c >= 192) $bits=2;
+	            else return false;
+	            if(($i+$bits) > $len) return false;
+	            while($bits > 1){
+	                $i++;
+	                $b=ord($str[$i]);
+	                if($b < 128 || $b > 191) return false;
+	                $bits--;
+	            }
+	        }
+	    }
+	    return true;
 	}
 
 }
