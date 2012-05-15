@@ -1,7 +1,7 @@
 <?php
 
 define('MODULE_SHIPPING_TIRAMIZOO_TEXT_TITLE', 'Tiramizoo');
-define('MODULE_SHIPPING_TIRAMIZOO_TEXT_DESCRIPTION', 'Versand per Fahrradkurier');
+define('MODULE_SHIPPING_TIRAMIZOO_TEXT_DESCRIPTION', 'Versand per lokalem Kurier');
 
 define('MODULE_SHIPPING_TIRAMIZOO_TEXT_QUOTE_TITLE', 'Lieferung mit tiramizoo<br />');
 define('MODULE_SHIPPING_TIRAMIZOO_TEXT_SUBMIT_ERROR_TITLE', 'Buchen des Versands durch Tiramizoo fehlgeschlagen');
