@@ -10,7 +10,7 @@ Dimensions patch
 Adds attributes length, height and width to articles. 
 
   1. Change database with patch.sql
-  2. Change fies with patch.diff or manually as described in patch.txt
+  2. Change fies with patch.diff or manually as described in patch.md
   
 Delivery plugin
 ---------------
@@ -38,7 +38,7 @@ Dimensions-Patch
 Fügt den Artikeln die Merkmale Höhe, Länge und Breite hinzu.
 
   1. Datenbank ändern mit patch.sql
-  2. Dateien ändern mit patch.diff oder manuell wie in patch.txt beschrieben
+  2. Dateien ändern mit patch.diff oder manuell wie in patch.md beschrieben
   
 Versand-Plugin
 --------------
