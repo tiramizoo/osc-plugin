@@ -68,12 +68,18 @@ class tiramizoo {
 		
 		$data = array(
 			"pickup" => array(
-				"address" => $this->_fix_string(MODULE_SHIPPING_TIRAMIZOO_PICKUP_STREET." ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_NUMBER.", ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_POSTCODE." ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_CITY),
+				"address_line_1" => $this->_fix_string(MODULE_SHIPPING_TIRAMIZOO_PICKUP_STREET." ".MODULE_SHIPPING_TIRAMIZOO_PICKUP_NUMBER),
+				"postal_code" => $this->_fix_string(MODULE_SHIPPING_TIRAMIZOO_PICKUP_POSTCODE),
+				"city" => $this->_fix_string(MODULE_SHIPPING_TIRAMIZOO_PICKUP_CITY),
+				"country_code" => $this->_fix_string(MODULE_SHIPPING_TIRAMIZOO_PICKUP_COUNTRY),
 				"delay" => (MODULE_SHIPPING_TIRAMIZOO_PICKUP_DELAY+0),
 				"windows" => $windows
 			),
 			"delivery" => array(
-				"address" => $this->_fix_string($order->delivery["street_address"].", ".$order->delivery["postcode"]." ".$order->delivery["city"]),
+				"address_line_1" => $this->_fix_string($order->delivery["street_address"]),
+				"postal_code" => $this->_fix_string($order->delivery["postcode"]),
+				"city" => $this->_fix_string($order->delivery["city"]),
+				"country_code" => $this->_fix_string(strtolower($order->delivery["country"]["iso_code_2"])),
 				"intervals" => true
 			),
 			"items" => array()
@@ -270,7 +276,7 @@ class tiramizoo {
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Abholadresse: Hausnummer', 'MODULE_SHIPPING_TIRAMIZOO_PICKUP_NUMBER', '', 'Die Hausnummer der Adresse, an der die Sendung durch den Kurier abgeholt werden soll', '6', '4', now())");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Abholadresse: Postleitzahl', 'MODULE_SHIPPING_TIRAMIZOO_PICKUP_POSTCODE', '', 'Die Postleitzahl der Adresse, an der die Sendung durch den Kurier abgeholt werden soll', '6', '5', now())");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Abholadresse: Ort', 'MODULE_SHIPPING_TIRAMIZOO_PICKUP_CITY', '', 'Die Stadt der Adresse, an der die Sendung durch den Kurier abgeholt werden soll', '6', '6', now())");
-		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Abholadresse: Land', 'MODULE_SHIPPING_TIRAMIZOO_PICKUP_COUNTRY', '', 'Das Land der Adresse, an der die Sendung durch den Kurier abgeholt werden soll', '6', '7', now())");
+		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Abholadresse: Land', 'MODULE_SHIPPING_TIRAMIZOO_PICKUP_COUNTRY', '', 'Der zweistellige Ländercode der Adresse, an der die Sendung durch den Kurier abgeholt werden soll', '6', '7', now())");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Zeitraum für die Abholung', 'MODULE_SHIPPING_TIRAMIZOO_PICKUP_TIME', 'MO,DI,MI,DO,FR:8-22', 'Die Tage und Zeiten, zu denen eine Abholung erfolgen kann. Beispiel: MO,DI,MI,DO:8-16,17-18;FR:12-14', '6', '11', now())");      
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Vorlaufzeit für die Abholung', 'MODULE_SHIPPING_TIRAMIZOO_PICKUP_WAIT', '60', 'Anzahl der Minuten bevor eine Abholung möglich ist.', '6', '12', now())");      
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Bearbeitungszeit für die Abholung', 'MODULE_SHIPPING_TIRAMIZOO_PICKUP_DELAY', '5', 'Anzahl der Minuten die der Kurier bei der Abholung auf die Aushändigung warten muss.', '6', '12', now())");      
