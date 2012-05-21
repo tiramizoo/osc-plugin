@@ -232,6 +232,10 @@ class tiramizoo {
 			
 		}
 		
+		/* purge old cache data */
+		
+		tep_db_query("DELETE FROM tiramizoo_cache WHERE `expiry` <= '".time()."'");
+		
 		return true;
 
 	}
