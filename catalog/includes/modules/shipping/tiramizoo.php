@@ -190,7 +190,7 @@ class tiramizoo {
 		
 		$result = tep_db_query("SELECT `value` FROM tiramizoo_cache WHERE `id` = '".$_SESSION["tiramizoo_quotes_cache"]."'");
 		
-		if (tep_db_num_rows() <> 1) { return false; }
+		if (tep_db_num_rows($result) <> 1) { return false; }
 		
 		$quotes = tep_db_fetch_array($result);
 		
