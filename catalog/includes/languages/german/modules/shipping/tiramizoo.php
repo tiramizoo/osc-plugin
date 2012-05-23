@@ -10,4 +10,12 @@ define('MODULE_SHIPPING_TIRAMIZOO_TEXT_SUBMIT_ERROR_CONTENT', 'osCommerce konnte
 define('MODULE_SHIPPING_TIRAMIZOO_TEXT_TIMES_SAMEDAY', 'am <strong>%s</strong> zwischen <strong>%s</strong> und <strong>%s</strong>');
 define('MODULE_SHIPPING_TIRAMIZOO_TEXT_TIMES_DIFFDAY', 'zwischen <strong>%s</strong> und <strong>%s</strong>');
 
+define('MODULE_SHIPPING_TIRAMIZOO_DATE_MON', 'Mo');
+define('MODULE_SHIPPING_TIRAMIZOO_DATE_TUE', 'Di');
+define('MODULE_SHIPPING_TIRAMIZOO_DATE_WED', 'Mi');
+define('MODULE_SHIPPING_TIRAMIZOO_DATE_THU', 'Do');
+define('MODULE_SHIPPING_TIRAMIZOO_DATE_FRI', 'Fr');
+define('MODULE_SHIPPING_TIRAMIZOO_DATE_SAT', 'Sa');
+define('MODULE_SHIPPING_TIRAMIZOO_DATE_SUN', 'So');
+
 ?>
