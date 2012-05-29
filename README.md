@@ -1,13 +1,12 @@
 German version see below
 
-
 Installation of the plugin
 ==========================
 
-Dimensions patch
-----------------
+Article options patch
+---------------------
 
-Adds attributes length, height and width to articles. 
+Adds attributes length, height, width and booking enabled to articles. 
 
   1. Change database with patch.sql
   2. Change fies with patch.diff or manually as described in patch.md
@@ -23,7 +22,8 @@ For tests, change the variable $api_url in modules/shipping/tiramizoo.php to "ht
 Shipping dropdown box
 ---------------------
 
-Include the file includes/tiramizoo.js into checkout_shipping.php.
+  1. Include a current version of jQuery in the shops code
+  2. Include the file includes/tiramizoo-de.js or includes/tiramizoo-en.js into checkout_shipping.php.
 
 
 ---------------------------------
@@ -32,10 +32,10 @@ Include the file includes/tiramizoo.js into checkout_shipping.php.
 Installation des Plugins
 ========================
 
-Dimensions-Patch
-----------------
+Artikeloptionen-Patch
+---------------------
 
-Fügt den Artikeln die Merkmale Höhe, Länge und Breite hinzu.
+Fügt den Artikeln die Merkmale Höhe, Länge, Breite und Buchungsverfügbarkeit hinzu.
 
   1. Datenbank ändern mit patch.sql
   2. Dateien ändern mit patch.diff oder manuell wie in patch.md beschrieben
@@ -49,7 +49,8 @@ Versand-Plugin
 Zum Testen die Variable $api_url in modules/shipping/tiramizoo.php ändern in "https://api-staging.tiramizoo.com/v1"
 
 Versandmethoden-Dropdown
------------------------
+------------------------
 
-Die Datei includes/tiramizoo.js in checkout_shipping.php einbinden.
+  1. Eine Aktuelle version von jQuery im Shop einbinden
+  2. Die Datei includes/tiramizoo-de.js oder includes/tiramizoo-en.js in checkout_shipping.php einbinden.
 
