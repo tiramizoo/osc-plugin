@@ -108,7 +108,7 @@ class tiramizoo {
 			
 			foreach ($order->products as $item) {
 
-				if ($item["instant"] !== 'y' || ($item["width"] == 0 && $item["height"] == 0 && $item["length"] == 0)) {
+				if ($item["instant"] !== 'y') {
 					
 					return false;
 					
