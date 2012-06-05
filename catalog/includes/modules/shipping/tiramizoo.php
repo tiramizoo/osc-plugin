@@ -600,6 +600,10 @@ if (!class_exists("payment_proxy")) {
 	
 		function update_status() { 
 		
+			if (basename($GLOBALS["_SERVER"]["SCRIPT_FILENAME"]) === 'checkout_process.php' && class_exists("payment_proxy")) {
+				$GLOBALS["order"]->info['shipping_method'] = strip_tags($GLOBALS["order"]->info['shipping_method']);
+			}
+
 			$GLOBALS["payment_backup"]->update_status(); 
 		   $this->enabled = $GLOBALS["payment_backup"]->enabled;
 		
